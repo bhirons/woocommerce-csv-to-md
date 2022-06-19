@@ -3,6 +3,8 @@
   "dependencies": {
     "csv-parser": "^3.0.0",
     "fs": "^0.0.1-security",
-    "xlsx": "^0.18.3"
+    "underscore.string": "^3.3.6",
+    "xlsx": "^0.18.3",
+    "yamljs": "^0.3.0"
   }
 }
