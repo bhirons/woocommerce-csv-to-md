@@ -76,6 +76,7 @@ function createMd(data) {
 }
 
 // This is to ignore the .gitkeep and allow multiple .csv
+console.log(`Files:\r\n${files}`)
 files.forEach(file => {
     if (file.split('.').at(-1) === 'csv') {
         fs.createReadStream(sourcePath + '/' + file)
