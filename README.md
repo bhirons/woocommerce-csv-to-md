@@ -2,15 +2,16 @@
 
 ## Purpose
 
-To re-implement a Wordpres/WooCommerce storefront into a jamstack-like staic site built using Hugo.  This script picks up a attributes from a CSV file exported from the default WooCommere Export button and saves them as hugo style md files with front matter yaml at the top of the output file, and any content at the  bottom.
+To re-implement a Wordpress/WooCommerce storefront into a jamstack-ey static site built using Hugo and editable in Forestry for content editors.  This script picks up a attributes from a CSV file exported from the default WooCommere Export button and saves them as hugo style md files with front matter yaml at the top of the output file, and any content at the  bottom.
 
 This repo branched from csv-to-hugo-md-files cause it was a good boilerplate to get started.
 
 ## Usage
 
-- Clone the repository
+- Export your products from WooCommerce using teh export button on the Products page
+- Clone thi repository
 - `npm i`
-- Move your `.csv` file(s) into the `csv-file` folder
+- Move your exported `.csv` file(s) into the `csv-file` folder
 - `node .\converter.js`
 - Look at results in `resulting-md-files`
 
