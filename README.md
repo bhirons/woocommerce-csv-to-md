@@ -2,7 +2,9 @@
 
 ## Purpose
 
-To re-implement a Wordpress/WooCommerce storefront into a jamstack-ey static site built using Hugo and editable in Forestry for content editors.  This script picks up a attributes from a CSV file exported from the default WooCommere Export button and saves them as hugo style md files with front matter yaml at the top of the output file, and any content at the  bottom.
+To aid the re-implement of a Wordpress/WooCommerce storefront into a jamstack-ey static site built using Hugo and editable in Forestry for content editors-- this script picks up a attributes from a CSV file exported from the default WooCommere Export button and saves them as hugo style md files with front matter yaml at the top of the output file, and any content at the bottom.
+
+The output can be dropped directly into the repo serving content editors in Forestry, for example.
 
 This repo branched from csv-to-hugo-md-files cause it was a good boilerplate to get started.
 
@@ -17,11 +19,11 @@ This repo branched from csv-to-hugo-md-files cause it was a good boilerplate to 
 
 ## Behavior
 
-This behavior is very specific to the requiremnts, and all of this is easily modified.  Suggest you fork this repo and go to town ;)
+This behavior is specific to the requirements, and all of this is easily modified.  Suggest you fork this repo and go to town ;)
 
-- output file is slugified from product name
+- output file name is slugify-ed from product name
 - images paths are flattened
-- duplicates are named -2, -3, etc
+- duplicates of a given product-name will be named product-name-2, product-name-3, etc
 - script only processes simple or variable products and checks for type when parsing
 - script cleans and trims various text artifacts found in export data
 - captures categories and tags
