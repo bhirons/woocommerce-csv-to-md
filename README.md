@@ -6,7 +6,7 @@ To aid the re-implement of a Wordpress/WooCommerce storefront into a jamstack-ey
 
 The output can be dropped directly into the repo serving content editors in Forestry, for example.
 
-This repo branched from csv-to-hugo-md-files cause it was a good boilerplate to get started.
+This repo forked from csv-to-hugo-md-files cause it was a good boilerplate to get started.
 
 ## Usage
 
