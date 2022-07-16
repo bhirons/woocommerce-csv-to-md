@@ -4,24 +4,68 @@ import { debug } from 'console'
 import ustr from 'underscore.string'
 import yaml from 'yamljs'
 
+//enable disable functions
+const exportImageList = false;
+const generateMDFiles = true;
+
 const names = [];
 // date will be date of this invocation
 const importDate = new Date().toISOString();
 const sourcePath = './csv-file';
 const resultPath = './resulting-md-files';
+const resultListsPath = './resulting-lists';
+const imageListName = 'product-images.txt';
 // set the target path for images, the image URLS will be flattened with the intent of all images imported here
-const imageDest = 'images/products/';
+const imageDest = 'images/product/';
 const files = fs.readdirSync(sourcePath);
 
 // Create the resultPath in case it doesn't exist
 if (!fs.existsSync(resultPath)) {
     fs.mkdirSync(resultPath);
 }
+if (!fs.existsSync(resultListsPath)) {
+    fs.mkdirSync(resultListsPath);
+} 
+else {
+    //delete any existing output file
+    try {
+        fs.unlinkSync(`${resultListsPath}/${imageListName}`);
+        console.log('Purged existing list output.');
+    }
+    catch (err) {
+        //nah
+    }
+}
+
+function exportImageNames(data) {
+    
+    let images = [];
+
+    // Parsing images which are also a comma list
+    if (data['Images']) {
+        //console.log(data['Images']);
+        images = data['Images']
+                    .split(',')
+                    .map(imgurl => imgurl.substring(imgurl.indexOf('/uploads/') + 9))
+                    .map(imgurl => ustr.clean(imgurl));
+
+        images.forEach(function(img){
+            console.log(img);
+            fs.appendFile(`${resultListsPath}/${imageListName}`, img + '\n', (err) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log("Image list file appended");
+                }
+            });
+        });
+    }
+}
 
 // Use the object from csv-parser to create a hugo readable md
 function createMd(data) {
-    //prepare the product name for use as a filename
-    // capture my legacy SKU
+
     let out = {};
     let name = ustr.slugify(data.Name);
     let sku = ustr.unquote(data['SKU'], "'");
@@ -72,7 +116,7 @@ function createMd(data) {
                  .split(',')
                  .map(imgurl => imgurl.substring(imgurl.lastIndexOf('/') + 1))
                  .map(imgurl => ustr.clean(imgurl))
-                 .map(imgurl => ustr(imageDest).concat(imgurl).value())
+                 .map(imgurl => ustr(imageDest).concat(imgurl).value());
     }
 
     out.title = ustr.clean(data['Name']);
@@ -102,12 +146,19 @@ files.forEach(file => {
             .pipe(csv())
             .on('data', (row) => {
                 //console.log(row);
-                //requirement is for simpe and variable types only
-                if (row['Type'] === 'simple' || row['Type'] === 'variable') {
-                    createMd(row);    
+                if(generateMDFiles) {
+                    //requirement is for simpe and variable types only
+                    if (row['Type'] === 'simple' || row['Type'] === 'variable') {
+                        createMd(row);    
+                    }                
+                    else {
+                        console.log(`Skipped ${row['Type']}.`)
+                    }    
                 }
-                else {
-                    console.log(`Skipped ${row['Type']}.`)
+
+                if(exportImageList) {                        
+                    //parse out image names
+                    exportImageNames(row);
                 }
             })
             .on('end', () => { console.log('DONE') })
