@@ -3,12 +3,13 @@ import csv from 'csv-parser'
 import { debug } from 'console'
 import ustr from 'underscore.string'
 import yaml from 'yamljs'
+import TurndownService from 'turndown'
 
 //enable disable functions
 //control flags that I set manually depending on the task
-const exportImageList = false;
+const exportImageList = true;
 const generateMDFiles = false;
-const exportMenus = true;
+const exportMenus = false;
 
 const names = [];
 // date will be date of this invocation
@@ -146,6 +147,8 @@ function createMd(data) {
 // do a separate function instead of embedding a zillion boolean flags
 function createMenu(data) {
 
+    const turndownService = new TurndownService();
+
     let out = {};
     let name = ustr.slugify(data.Name);
     //let sku = ustr.unquote(data['SKU'], "'");
@@ -156,8 +159,11 @@ function createMenu(data) {
     
     //description contains a strange newline return artifact '\r\\n\r\\n' that we can clean
     // adding removal of html-like tags when my description has mark-up
-    let content = ustr(data['Short description']).replace(/(<([^>]+)>)/gi,'').replace(/\\r\\\\n|\\n/gm,' ').trim().clean().value();
-    console.log(content);
+    // let content = ustr(data['Short description']).replace(/(<([^>]+)>)/gi,'').replace(/\\r\\\\n|\\n/gm,' ').trim().clean().value();
+    let content_html = ustr(data['Short description']).replace(/\\r\\\\n|\\n/gm,' ').trim().clean().value();
+    let content = turndownService.turndown(content_html);
+    // console.log(content);
+
     // console.log(sku);
     let ptype = data.Type;
     console.log(`${ptype} product ${data.Name} found`);
@@ -238,8 +244,8 @@ files.forEach(file => {
                 }
 
                 if(exportMenus) {
-                    //requirement is for simpe and variable types only
-                    if (row['Type'] === 'simple' || row['Type'] === 'variable') {
+                    //menu is a variable types only
+                    if (row['Type'] === 'variable') {
                         createMenu(row);    
                     }                
                     else {
