@@ -19,7 +19,7 @@ This repo forked from csv-to-hugo-md-files cause it was a good boilerplate to ge
 
 ## Behavior
 
-This behavior is specific to the requirements, and all of this is easily modified.  Suggest you fork this repo and go to town ;)
+Behavior is specific to my own requirements, and all of this is easily modified.  Suggest you fork this repo and go to town ;)
 
 - output file name is slugify-ed from product name
 - images paths are flattened
