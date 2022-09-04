@@ -7,9 +7,9 @@ import TurndownService from 'turndown'
 
 //enable disable functions
 //control flags that I set manually depending on the task
-const exportImageList = true;
+const exportImageList = false;
 const generateMDFiles = false;
-const exportMenus = false;
+const exportMenus = true;
 
 const names = [];
 // date will be date of this invocation
@@ -155,7 +155,7 @@ function createMenu(data) {
     let tags = [];
     let images = [];
     let categories = [];
-    let ingredients = [];
+    //let ingredients = [];
     
     //description contains a strange newline return artifact '\r\\n\r\\n' that we can clean
     // adding removal of html-like tags when my description has mark-up
@@ -214,7 +214,7 @@ function createMenu(data) {
     out.description = ustr.clean(data['Name']);
     out.images = images;
     out.thumbnail = ""
-    out.ingredients = ingredients;
+    //out.ingredients = ingredients;
     //console.log(images);
     out.tags = tags;
     //console.log(tags);
